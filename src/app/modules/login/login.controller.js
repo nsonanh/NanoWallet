@@ -33,7 +33,7 @@ class LoginCtrl {
         //// End properties region ////
 
         // Hide trezor button if using chrome builds
-        if (typeof nw !== 'undefined') this.hideTrezor = true;
+        // if (typeof nw !== 'undefined') this.hideTrezor = true;
     }
 
     //// Module methods region ////

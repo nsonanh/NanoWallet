@@ -45,6 +45,7 @@ import './modules/addressBook';
 import './modules/importanceTransfer';
 import './modules/faq';
 import './modules/trezor';
+import './modules/ledger';
 import './modules/apostille';
 import './modules/exchanges';
 import './modules/explorer';
@@ -92,6 +93,7 @@ const requires = [
     'app.multisigImportanceTransfer',
     'app.faq',
     'app.trezor',
+    'app.ledger',
     'app.createApostille',
     'app.auditApostille',
     'app.apostilleHistory',
