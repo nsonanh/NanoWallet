@@ -41,15 +41,49 @@ var autoprefixerOptions = {
 
 // Task for app files
 gulp.task('browserify', ['views'], function() {
-  return browserify('./src/app/app.js')
-      .transform(babelify, {presets: ["es2015"]})
-      .transform(ngAnnotate)
-      .bundle()
-      .on('error', interceptErrors)
-      //Pass desired output filename to vinyl-source-stream
-      .pipe(source('main.js'))
-      // Start piping stream to tasks!
-      .pipe(gulp.dest('./build/'));
+  // return browserify('./src/app/app.js')
+  //     .transform(babelify, {presets: ["es2015"]})
+  //     .transform(ngAnnotate)
+  //     .bundle()
+  //     .on('error', interceptErrors)
+  //     //Pass desired output filename to vinyl-source-stream
+  //     .pipe(source('main.js'))
+  //     // Start piping stream to tasks!
+  //     .pipe(gulp.dest('./build/'));
+
+    // return gulp.src('./src/app/app.js')
+    // .pipe(browserify({ transform: ['babelify'] }))
+    // .on('error', interceptErrors)
+    // .bundle()
+    // // .pipe(rename('./dist/js/bundle.js'))
+    // //.pipe(uglify())
+    // .pipe(gulp.dest('./build/'));
+
+    return browserify({
+      extensions: ['.jsx', '.js'],
+      debug: true,
+      cache: {},
+      packageCache: {},
+      fullPaths: true,
+      entries: './src/app/app.js',
+    })
+    .transform(babelify.configure({ 
+        presets: [['es2015', {
+          targets: {
+            node: "current"
+          }
+        }]],
+        plugins: [
+          "syntax-dynamic-import",
+          "transform-runtime",
+          "transform-async-to-generator"
+        ],
+        ignore: /(bower_components)|(node_modules)/
+    }))
+    .bundle()
+    .on("error", interceptErrors)
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest('./build/'));
 });
 
 // Task for test files
