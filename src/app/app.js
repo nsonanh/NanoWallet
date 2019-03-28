@@ -121,6 +121,8 @@ window.$ = window.jQuery = $;
 
 // Load twitter bootstrap with require or jQuery is not defined
 require('bootstrap');
+require("babel-polyfill");
+require('babel-runtime/regenerator');
 
 // Apply nw.js config if using Chrome
 if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {

@@ -66,12 +66,8 @@ class LedgerCtrl {
      * Login with LEDGER
      */
     login() {
-        this._Ledger.createWallet(this.network).then((wallet) => {
+        this._Ledger.createWallet(this.network, (wallet) => {
             this._Login.login({}, wallet);
-        }, (error) => {
-            this._$timeout(() => {
-                this._Alert.createWalletFailed(error);
-            });
         });
     }
 

@@ -1,6 +1,9 @@
 import nem from 'nem-sdk';
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
+// import TransportNodeHid from "@ledgerhq/hw-transport-node-hid";
 import NemH from "./hw-app-nem";
+// import TransportU2F from "@ledgerhq/hw-transport-http"
+// import NemH from 'testnpm-testledger';
 
 /** Service storing Trezor utility functions. */
 class Ledger {
@@ -35,9 +38,10 @@ class Ledger {
     }
 
     async createAccount(network, index, label) {
-        const transport = await TransportU2F.create();
+        const transport = await new TransportU2F();
         const nemH = new NemH(transport);
-        return nemH.getAddress(bip44(network, index));
+        var bipPath = bip44(network, index);
+        return nemH.getAddress(bipPath);
     }
 
     deriveRemote(account, network) {

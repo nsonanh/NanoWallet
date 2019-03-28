@@ -5,7 +5,10 @@
   "author": "https://github.com/QuantumMechanics",
   "license": "MIT",
   "dependencies": {
-    "@ledgerhq/hw-transport-u2f": "^4.48.0",
+    "@babel/runtime": "^7.4.2",
+    "@ledgerhq/hw-transport-http": "^4.48.0",
+    "@ledgerhq/hw-transport-node-hid": "^4.48.0",
+    "@ledgerhq/hw-transport-u2f": "^4.24.0",
     "@uirouter/angularjs": "1.0.6",
     "angular": "1.6.2",
     "angular-animate": "1.6.2",
@@ -47,6 +50,7 @@
     "ngstorage": "0.3.10",
     "nw": "^0.26.6",
     "nw-builder": "^3.4.1",
+    "testnpm-testledger": "^1.0.3",
     "url-parse": "1.1.9",
     "vinyl-source-stream": "^1.1.0",
     "zxcvbn": "4.4.2"

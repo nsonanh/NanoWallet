@@ -42,7 +42,12 @@ var autoprefixerOptions = {
 // Task for app files
 gulp.task('browserify', ['views'], function() {
   // return browserify('./src/app/app.js')
-  //     .transform(babelify, {presets: ["es2015"]})
+  //     .transform(babelify, {presets: ["es2015"],
+  //     plugins: [
+  //       "syntax-dynamic-import",
+  //       "transform-runtime",
+  //       "transform-async-to-generator"
+  //     ]})
   //     .transform(ngAnnotate)
   //     .bundle()
   //     .on('error', interceptErrors)
@@ -67,6 +72,7 @@ gulp.task('browserify', ['views'], function() {
       fullPaths: true,
       entries: './src/app/app.js',
     })
+    // .transform(ngAnnotate)
     .transform(babelify.configure({ 
         presets: [['es2015', {
           targets: {
@@ -80,9 +86,10 @@ gulp.task('browserify', ['views'], function() {
         ],
         ignore: /(bower_components)|(node_modules)/
     }))
+    .transform(ngAnnotate)
     .bundle()
     .on("error", interceptErrors)
-    .pipe(source('bundle.js'))
+    .pipe(source('main.js'))
     .pipe(gulp.dest('./build/'));
 });
 
