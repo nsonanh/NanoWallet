@@ -9,6 +9,8 @@
     "@ledgerhq/hw-transport-http": "^4.48.0",
     "@ledgerhq/hw-transport-node-hid": "^4.48.0",
     "@ledgerhq/hw-transport-u2f": "^4.24.0",
+    "@ledgerhq/hw-transport-web-ble": "^4.48.0",
+    "@ledgerhq/hw-transport-webusb": "^4.48.0",
     "@uirouter/angularjs": "1.0.6",
     "angular": "1.6.2",
     "angular-animate": "1.6.2",

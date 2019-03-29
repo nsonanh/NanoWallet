@@ -1,9 +1,13 @@
 import nem from 'nem-sdk';
-import TransportU2F from "@ledgerhq/hw-transport-u2f";
+// import TransportU2F from "@ledgerhq/hw-transport-u2f";
 // import TransportNodeHid from "@ledgerhq/hw-transport-node-hid";
+// import TransportU2F from "@ledgerhq/hw-transport-web-ble";
 import NemH from "./hw-app-nem";
 // import TransportU2F from "@ledgerhq/hw-transport-http"
 // import NemH from 'testnpm-testledger';
+import Transport from "@ledgerhq/hw-transport";
+import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
+
 
 /** Service storing Trezor utility functions. */
 class Ledger {
@@ -34,14 +38,18 @@ class Ledger {
     bip44(network, index) {
         const coinType = network == -104 ? 1 : 43;
 
-        return `m/44'/${coinType}'/${index}'/0'/0'`;
+        // return `44'/${coinType}'/${index}'/0'/0'`;
+        return 
+        ;
     }
 
     async createAccount(network, index, label) {
-        const transport = await new TransportU2F();
+        console.log('HERE 1');
+        const transport = await TransportWebUSB.create().catch(err => console.log(err + "av"));
+        console.log('transport: ' + transport);
         const nemH = new NemH(transport);
-        var bipPath = bip44(network, index);
-        return nemH.getAddress(bipPath);
+        console.log('HERE 3');
+        return nemH.getAddress(this.bip44(network, index));
     }
 
     deriveRemote(account, network) {
