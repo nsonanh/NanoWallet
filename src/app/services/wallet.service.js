@@ -174,7 +174,6 @@ class Wallet {
         if(wallet.accounts[0].network === nem.model.network.data.mainnet.id && wallet.accounts[0].algo === 'pass:6k' && common.password.length < 40) {
             this._Alert.brainWalletUpgrade();
         }
-        // Set the wallet object in Wallet service
         this.use(wallet);
         return true;
     }

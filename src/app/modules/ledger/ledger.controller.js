@@ -66,8 +66,16 @@ class LedgerCtrl {
      * Login with LEDGER
      */
     login() {
-        this._Ledger.createWallet(this.network, (wallet) => {
+        this._Ledger.createWallet(this.network)
+        .then( wallet => {
+            console.log(wallet);
+            console.log("valid address: " + nem.model.address.isValid(wallet.accounts[0].address));
             this._Login.login({}, wallet);
+        })
+        .catch(error => {
+            this._$timeout(() => {
+                this._Alert.createWalletFailed(error);
+            });
         });
     }
 

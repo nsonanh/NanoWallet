@@ -1,13 +1,6 @@
 import nem from 'nem-sdk';
-// import TransportU2F from "@ledgerhq/hw-transport-u2f";
-// import TransportNodeHid from "@ledgerhq/hw-transport-node-hid";
-// import TransportU2F from "@ledgerhq/hw-transport-web-ble";
 import NemH from "./hw-app-nem";
-// import TransportU2F from "@ledgerhq/hw-transport-http"
-// import NemH from 'testnpm-testledger';
-import Transport from "@ledgerhq/hw-transport";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
-
 
 /** Service storing Trezor utility functions. */
 class Ledger {
@@ -32,24 +25,42 @@ class Ledger {
     // Service methods region //
 
     createWallet(network) {
-        return this.createAccount(network, 0, "Primary");
+        return this.createAccount(network, 0, "Primary")
+            .then((account) => ({
+                "name": "LEDGER",
+                "accounts": {
+                    "0": account
+                }
+            }))
+            .catch(err => console.log(err));
     }
 
     bip44(network, index) {
-        const coinType = network == -104 ? 1 : 43;
-
-        // return `44'/${coinType}'/${index}'/0'/0'`;
-        return 
-        ;
+        // recognize networkId by bip32Path;
+        // "44'/43'/networkId'/walletIndex'/accountIndex'"
+        // const networkId = network == -104 ? 144 : 104;
+        const networkId = network == -104 ? 152 : 104;
+        return (`44'/43'/${networkId}'/${index}/0`);
     }
 
     async createAccount(network, index, label) {
-        console.log('HERE 1');
-        const transport = await TransportWebUSB.create().catch(err => console.log(err + "av"));
-        console.log('transport: ' + transport);
+        const transport = await TransportWebUSB.create()
+            .catch(err => console.log(err));
         const nemH = new NemH(transport);
-        console.log('HERE 3');
-        return nemH.getAddress(this.bip44(network, index));
+        const hdKeypath = this.bip44(network, index);
+        return nemH.getAddress(hdKeypath)
+            .then(result => ({
+                "brain": false,
+                "algo": "ledger",
+                "encrypted": "",
+                "iv": "",
+                "address": result.address,
+                "label": label,
+                "network": network,
+                "child": "",
+                "hdKeypath": result.path
+            }))
+            .catch(err => console.log(err));
     }
 
     deriveRemote(account, network) {
